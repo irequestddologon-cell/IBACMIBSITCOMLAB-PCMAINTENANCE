@@ -31,19 +31,10 @@ function getDB() {
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     ]
                 );
-            } else {
-                // Local XAMPP fallback
-                $pdo = new PDO(
-                    "mysql:host=localhost;dbname=pcms_db;charset=utf8mb4",
-                    "root",
-                    "",
-                    [
-                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    ]
-                );
-            }
-
+         } else {
+    throw new PDOException("DATABASE_URL environment variable is not set. Please configure it in Railway Variables.");
+}
+                
         } catch (PDOException $e) {
             die("Database connection failed: " . htmlspecialchars($e->getMessage()));
         }
